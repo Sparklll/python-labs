@@ -1,5 +1,17 @@
+import logging
+import sys
+from signal import signal, SIGINT
 from countryinfo import CountryInfo
 
+logger = logging.getLogger('')
+logger.setLevel(logging.INFO)
+
+console_handler = logging.StreamHandler(sys.stdout)
+console_formatter = logging.Formatter("%(message)s")
+console_handler.setFormatter(console_formatter)
+console_handler.setLevel(logging.INFO)
+
+logger.addHandler(console_handler)
 
 def print_country_info():
     country_name = input('Please, enter country name to retrieve info: ')
@@ -11,23 +23,26 @@ def print_country_info():
         country_population = country_info.population()
         country_residents = country_info.demonym()
 
-        print("""\
-        Name : {name}
-        Capital : {capital}
-        Region : {region}
-        Area : {area} sq.km
-        Population : {population} people
-        Residents : {residents}
-        """.format(name=country_name,
-                   capital=country_capital,
-                   region=country_region,
-                   area=country_area,
-                   population=country_population,
-                   residents=country_residents))
+        info_str = (
+        "Name : {name} \n".format(name=country_name) +
+        "Capital : {capital} \n".format(capital=country_capital) +
+        "Region : {region} \n".format(region=country_region) +
+        "Area : {area} sq.km \n".format(area=country_area) +
+        "Population : {population} people \n".format(population=country_population) +
+        "Residents : {residents} \n".format(residents=country_residents))
 
-    except:
-        print("Sorry, country not founded :(")
+        logger.info(info_str)
 
+    except ValueError:
+        logger.info("Sorry, country not founded :(")
+
+def handler(signal_received, frame):
+    logger.info('\nSIGINT or CTRL-C detected. Exiting gracefully')
+    exit(0)
+
+def main():
+    signal(SIGINT, handler)
+    print_country_info()
 
 if __name__ == '__main__':
-    print_country_info()
+    main()
