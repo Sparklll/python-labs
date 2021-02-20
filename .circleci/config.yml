@@ -8,13 +8,13 @@ executors:
 jobs:
   build:
     executor: docker-publisher
-    working_directory: ./lab1
     steps:
       - checkout
       - setup_remote_docker
       - run:
           name: Build Docker image
           command: |
+            cd lab1
             docker build -t $IMAGE_NAME:latest .
       - run:
           name: Archive Docker image
