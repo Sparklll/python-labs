@@ -38,7 +38,7 @@ def print_country_info():
 
         logger.info(info_str)
 
-    except ValueError:
+    except KeyError:
         logger.info("Sorry, country not founded :(")
 
 
