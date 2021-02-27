@@ -2,6 +2,7 @@
 
 import logging
 import sys
+
 from countryinfo import CountryInfo
 
 logging.basicConfig(level=logging.INFO, stream=sys.stdout, format="%(message)s")

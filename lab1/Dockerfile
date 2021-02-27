@@ -2,7 +2,7 @@ FROM ubuntu
 
 COPY . /
 
-RUN set -o errexit -o nounset \
+RUN set -eu \
     && apt-get update && apt-get install -y \
     python3.8 \
     python3-pip \
