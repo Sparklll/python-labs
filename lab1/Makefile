@@ -1,4 +1,4 @@
-.PHONY: build start stop purge
+.PHONY: venv black lint clear docker-build docker-start docker-stop docker-purge
 
 APP_NAME := country-info
 SHELL := /bin/bash
@@ -15,10 +15,14 @@ venv: .venv/bin/activate
 
 black: venv
 	@.venv/bin/black --target-version=py38 --line-length=100 -- $(SOURCES)
+	
 
 lint: venv
 	-.venv/bin/pylint -- $(SOURCES)
 	-.venv/bin/flake8 -- $(SOURCES)
+
+clear:
+	@rm -r .venv
 
 
 #DOCKER
